@@ -177,11 +177,14 @@ func (tpi *ProtoInfoTCP) unmarshal(ad *netlink.AttributeDecoder) error {
 // marshal marshals a ProtoInfoTCP into a netfilter.Attribute.
 func (tpi ProtoInfoTCP) marshal() netfilter.Attribute {
 
-	nfa := netfilter.Attribute{Type: uint16(ctaProtoInfoTCP), Nested: true, Children: make([]netfilter.Attribute, 3, 5)}
+	nfa := netfilter.Attribute{Type: uint16(ctaProtoInfoTCP), Nested: true, Children: make([]netfilter.Attribute, 1, 5)}
 
 	nfa.Children[0] = netfilter.Attribute{Type: uint16(ctaProtoInfoTCPState), Data: []byte{tpi.State}}
-	nfa.Children[1] = netfilter.Attribute{Type: uint16(ctaProtoInfoTCPWScaleOriginal), Data: []byte{tpi.OriginalWindowScale}}
-	nfa.Children[2] = netfilter.Attribute{Type: uint16(ctaProtoInfoTCPWScaleReply), Data: []byte{tpi.ReplyWindowScale}}
+	if tpi.OriginalWindowScale != 0 || tpi.ReplyWindowScale != 0 {
+		nfa.Children = append(nfa.Children,
+			netfilter.Attribute{Type: uint16(ctaProtoInfoTCPWScaleOriginal), Data: []byte{tpi.OriginalWindowScale}},
+			netfilter.Attribute{Type: uint16(ctaProtoInfoTCPWScaleReply), Data: []byte{tpi.ReplyWindowScale}})
+	}
 
 	// Only append TCP flags to attributes when either of them is non-zero.
 	if tpi.OriginalFlags != 0 || tpi.ReplyFlags != 0 {
