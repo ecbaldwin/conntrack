@@ -302,3 +302,24 @@ var _ = []uint8{
 	uint8(ctaSecCtxUnspec), uint8(ctaProtoInfoTCPUnspec), uint8(ctaProtoInfoDCCPUnspec),
 	uint8(ctaProtoInfoSCTPUnspec), uint8(ctaSeqAdjUnspec), uint8(ctaSynProxyUnspec),
 }
+
+// https://github.com/torvalds/linux/blob/c45e8bccecaf633480d378daff11e122dfd5e96d/include/uapi/linux/netfilter/nf_conntrack_tcp.h
+type TcpConntrackType uint8
+
+const (
+	TcpConntrackNone TcpConntrackType = iota // TCP_CONNTRACK_NONE
+	TcpConntrackSynSent                      // TCP_CONNTRACK_SYN_SENT
+	TcpConntrackSynRecv                      // TCP_CONNTRACK_SYN_RECV
+	TcpConntrackEstablished                  // TCP_CONNTRACK_ESTABLISHED
+	TcpConntrackFinWait                      // TCP_CONNTRACK_FIN_WAIT
+	TcpConntrackCloseWait                    // TCP_CONNTRACK_CLOSE_WAIT
+	TcpConntrackLastAck                      // TCP_CONNTRACK_LAST_ACK
+	TcpConntrackTimeWait                     // TCP_CONNTRACK_TIME_WAIT
+	TcpConntrackClose                        // TCP_CONNTRACK_CLOSE
+	TcpConntrackSynSent2                     // TCP_CONNTRACK_SYN_SENT2
+	TcpConntrackMax                          // TCP_CONNTRACK_MAX
+	TcpConntrackIgnore                       // TCP_CONNTRACK_IGNORE
+	TcpConntrackRetrans                      // TCP_CONNTRACK_RETRANS
+	TcpConntrackUnack                        // TCP_CONNTRACK_UNACK
+	TcpConntrackTimeoutMax                   // TCP_CONNTRACK_TIMEOUT_MAX
+)

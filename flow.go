@@ -26,6 +26,8 @@ type Flow struct {
 
 	TupleOrig, TupleReply, TupleMaster Tuple
 
+	Snat Snat
+
 	SeqAdjOrig, SeqAdjReply SequenceAdjust
 
 	Labels, LabelsMask []byte

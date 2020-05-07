@@ -250,6 +250,45 @@ func (c *Conn) FlushFilter(f Filter) error {
 	return nil
 }
 
+// Replace creates a new Conntrack entry.
+func (c *Conn) Replace(f Flow) error {
+
+	// Conntrack create requires timeout to be set.
+	if f.Timeout == 0 {
+		return errNeedTimeout
+	}
+
+	attrs, err := f.marshal()
+	if err != nil {
+		return err
+	}
+
+	pf := netfilter.ProtoIPv4
+	if f.TupleOrig.IP.IsIPv6() && f.TupleReply.IP.IsIPv6() {
+		pf = netfilter.ProtoIPv6
+	}
+
+	req, err := netfilter.MarshalNetlink(
+		netfilter.Header{
+			SubsystemID: netfilter.NFSubsysCTNetlink,
+			MessageType: netfilter.MessageType(ctNew),
+			Family:      pf,
+			Flags: netlink.Request | netlink.Acknowledge |
+				netlink.Excl | netlink.Replace,
+		}, attrs)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = c.conn.Query(req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Create creates a new Conntrack entry.
 func (c *Conn) Create(f Flow) error {
 
