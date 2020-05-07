@@ -128,6 +128,11 @@ func (f *Flow) unmarshal(ad *netlink.AttributeDecoder) error {
 				return errors.Wrap(errNotNested, opUnTup)
 			}
 			ad.Nested(f.TupleMaster.unmarshal)
+		case ctaNatSrc:
+			if !nestedFlag(ad.TypeFlags()) {
+				return errors.Wrap(errNotNested, opUnSnat)
+			}
+			ad.Nested(f.Snat.unmarshal)
 		// CTA_PROTOINFO is sent for TCP, DCCP and SCTP protocols only. It conveys extra metadata
 		// about the state flags seen on the wire. Update events are sent when these change.
 		case ctaProtoInfo:
@@ -239,6 +244,10 @@ func (f Flow) marshal() ([]netfilter.Attribute, error) {
 		a := netfilter.Attribute{Type: uint16(ctaZone)}
 		a.PutUint16(f.Zone)
 		attrs = append(attrs, a)
+	}
+
+	if f.Snat.filled() {
+		attrs = append(attrs, f.Snat.marshal())
 	}
 
 	if f.ProtoInfo.filled() {

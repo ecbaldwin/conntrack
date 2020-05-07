@@ -77,12 +77,12 @@ type ctaNatType uint8
 
 // enum ctattr_nat
 const (
-	CtaNatUnspec ctaNatType = iota // CTA_NAT_UNSPEC
-	CtaNatV4Minip                  // CTA_NAT_V4_MINIP
-	CtaNatV4Maxip                  // CTA_NAT_V4_MAXIP
-	CtaNatProto                    // CTA_NAT_PROTO
-	CtaNatV6Minip                  // CTA_NAT_V6_MINIP
-	CtaNatV6Maxip                  // CTA_NAT_V6_MAXIP
+	ctaNatUnspec ctaNatType = iota // CTA_NAT_UNSPEC
+	ctaNatV4Minip                  // CTA_NAT_V4_MINIP
+	ctaNatV4Maxip                  // CTA_NAT_V4_MAXIP
+	ctaNatProto                    // CTA_NAT_PROTO
+	ctaNatV6Minip                  // CTA_NAT_V6_MINIP
+	ctaNatV6Maxip                  // CTA_NAT_V6_MAXIP
 )
 
 // https://github.com/torvalds/linux/blob/c45e8bccecaf633480d378daff11e122dfd5e96d/include/uapi/linux/netfilter/nfnetlink_conntrack.h#L168
@@ -90,9 +90,9 @@ type ctaNatProtoType uint8
 
 // enum ctattr_protonat
 const (
-	CtaProtonatUnspec ctaNatProtoType = iota // CTA_PROTONAT_UNSPEC
-	CtaProtonatPortMin                       // CTA_PROTONAT_PORT_MIN
-	CtaProtonatPortMax                       // CTA_PROTONAT_PORT_MAX
+	ctaProtonatUnspec ctaNatProtoType = iota // CTA_PROTONAT_UNSPEC
+	ctaProtonatPortMin                       // CTA_PROTONAT_PORT_MIN
+	ctaProtonatPortMax                       // CTA_PROTONAT_PORT_MAX
 )
 
 // tupleType describes the type of tuple contained in this container.
