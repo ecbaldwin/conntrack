@@ -50,14 +50,15 @@ const (
 	ctaStatus                             // CTA_STATUS
 	ctaProtoInfo                          // CTA_PROTOINFO
 	ctaHelp                               // CTA_HELP
-	ctaNatSrc                             // CTA_NAT_SRC, Deprecated
+	// https://github.com/torvalds/linux/blob/c45e8bccecaf633480d378daff11e122dfd5e96d/include/uapi/linux/netfilter/nfnetlink_conntrack.h#L36
+	ctaNatSrc                             // CTA_NAT_SRC
 	ctaTimeout                            // CTA_TIMEOUT
 	ctaMark                               // CTA_MARK
 	ctaCountersOrig                       // CTA_COUNTERS_ORIG
 	ctaCountersReply                      // CTA_COUNTERS_REPLY
 	ctaUse                                // CTA_USE
 	ctaID                                 // CTA_ID
-	ctaNatDst                             // CTA_NAT_DST, Deprecated
+	ctaNatDst                             // CTA_NAT_DST
 	ctaTupleMaster                        // CTA_TUPLE_MASTER
 	ctaSeqAdjOrig                         // CTA_SEQ_ADJ_ORIG
 	ctaSeqAdjReply                        // CTA_SEQ_ADJ_REPLY
@@ -69,6 +70,29 @@ const (
 	ctaLabels                             // CTA_LABELS
 	ctaLabelsMask                         // CTA_LABELS_MASK
 	ctaSynProxy                           // CTA_SYNPROXY
+)
+
+// https://github.com/torvalds/linux/blob/c45e8bccecaf633480d378daff11e122dfd5e96d/include/uapi/linux/netfilter/nfnetlink_conntrack.h#L36
+type ctaNatType uint8
+
+// enum ctattr_nat
+const (
+	CtaNatUnspec ctaNatType = iota // CTA_NAT_UNSPEC
+	CtaNatV4Minip                  // CTA_NAT_V4_MINIP
+	CtaNatV4Maxip                  // CTA_NAT_V4_MAXIP
+	CtaNatProto                    // CTA_NAT_PROTO
+	CtaNatV6Minip                  // CTA_NAT_V6_MINIP
+	CtaNatV6Maxip                  // CTA_NAT_V6_MAXIP
+)
+
+// https://github.com/torvalds/linux/blob/c45e8bccecaf633480d378daff11e122dfd5e96d/include/uapi/linux/netfilter/nfnetlink_conntrack.h#L168
+type ctaNatProtoType uint8
+
+// enum ctattr_protonat
+const (
+	CtaProtonatUnspec ctaNatProtoType = iota // CTA_PROTONAT_UNSPEC
+	CtaProtonatPortMin                       // CTA_PROTONAT_PORT_MIN
+	CtaProtonatPortMax                       // CTA_PROTONAT_PORT_MAX
 )
 
 // tupleType describes the type of tuple contained in this container.
@@ -306,6 +330,7 @@ var _ = []uint8{
 // https://github.com/torvalds/linux/blob/c45e8bccecaf633480d378daff11e122dfd5e96d/include/uapi/linux/netfilter/nf_conntrack_tcp.h
 type TcpConntrackType uint8
 
+// enum tcp_conntrack
 const (
 	TcpConntrackNone TcpConntrackType = iota // TCP_CONNTRACK_NONE
 	TcpConntrackSynSent                      // TCP_CONNTRACK_SYN_SENT
