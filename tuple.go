@@ -26,6 +26,10 @@ type Tuple struct {
 	Zone  uint16
 }
 
+func (t Tuple) Filled() bool {
+	return t.filled()
+}
+
 // Filled returns true if the Tuple's IP and Proto members are filled.
 // The Zone attribute is not considered, because it is zero in most cases.
 func (t Tuple) filled() bool {

@@ -407,6 +407,10 @@ func (seq SequenceAdjust) String() string {
 	return fmt.Sprintf("[dir: %s, pos: %d, before: %d, after: %d]", dir, seq.Position, seq.OffsetBefore, seq.OffsetAfter)
 }
 
+func (seq SequenceAdjust) Filled() bool {
+	return seq.filled()
+}
+
 // Filled returns true if the SequenceAdjust's values are non-zero.
 // SeqAdj qualify as filled if all of its members are non-zero.
 func (seq SequenceAdjust) filled() bool {
